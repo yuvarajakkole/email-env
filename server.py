@@ -29,6 +29,7 @@ from env.models import AgentAction, EmailObservation, StepReward, EpisodeResult,
 from tasks.manager import TaskManager
 
 
+
 # ─────────────────────────────────────────────
 # App Setup
 # ─────────────────────────────────────────────
@@ -48,6 +49,40 @@ app.add_middleware(
 
 # Session registry (task_id → env instance)
 _sessions: Dict[str, EmailTriageEnv] = {}
+
+# ✅ ADD THIS ROOT ENDPOINT (IMPORTANT)
+@app.get("/")
+def root():
+    return {
+        "status": "ok",
+        "service": "Email Triage RL Environment",
+        "version": "1.0.0",
+        "endpoints": {
+            "docs": "/docs",
+            "health": "/health",
+            "reset": "/reset",
+            "step": "/step",
+            "tasks": "/tasks"
+        }
+    }
+
+
+
+# app = FastAPI(
+#     title       = "Email Triage RL Environment",
+#     description = "OpenEnv-compliant environment for email classification and triage.",
+#     version     = "1.0.0",
+# )
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins  = ["*"],
+#     allow_methods  = ["*"],
+#     allow_headers  = ["*"],
+# )
+
+# # Session registry (task_id → env instance)
+# _sessions: Dict[str, EmailTriageEnv] = {}
 
 
 # ─────────────────────────────────────────────
