@@ -20,7 +20,7 @@ from typing import Dict, Any, Optional
 
 import uvicorn
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import importP, CORSMiddleware
 from pydantic import BaseModel
 
 from config import settings   # loads .env, never exposes raw key
