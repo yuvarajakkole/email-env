@@ -20,7 +20,7 @@ from typing import Dict, Any, Optional
 
 import uvicorn
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import importP, CORSMiddleware
+from fastapi.middleware.cors  import CORSMiddleware
 from pydantic import BaseModel
 
 from config import settings   # loads .env, never exposes raw key
@@ -175,5 +175,11 @@ def get_result(session_id: str):
 # Entry Point
 # ─────────────────────────────────────────────
 
+# if __name__ == "__main__":
+#     uvicorn.run("server:app", host="0.0.0.0", port=settings.port, reload=False)
+
+import os
+
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=settings.port, reload=False)
+    port = int(os.environ.get("PORT", 7860))
+    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=False)
