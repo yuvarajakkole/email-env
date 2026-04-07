@@ -1,0 +1,50 @@
+name: email-triage-env
+version: "1.0.0"
+description: >
+  A production-grade reinforcement learning environment for AI-driven email triage.
+  The agent classifies incoming emails, assigns priority, decides on actions
+  (respond/archive/escalate/ignore), and generates contextually appropriate responses.
+
+author: OpenEnv Competition Submission
+license: MIT
+
+environment:
+  entry_point: env.core:EmailTriageEnv
+  max_steps: 50
+  observation_space: structured
+  action_space: structured
+
+tasks:
+  - id: easy
+    name: "Spam Classification"
+    description: "Binary classification of emails as spam or legitimate."
+    max_steps: 20
+    difficulty: easy
+
+  - id: medium
+    name: "Classification + Priority Assignment"
+    description: "Multi-class email classification with priority level assignment."
+    max_steps: 30
+    difficulty: medium
+
+  - id: hard
+    name: "Full Email Triage Pipeline"
+    description: >
+      Complete pipeline: classify, assign priority, decide action type,
+      and generate an appropriate response when required.
+    max_steps: 50
+    difficulty: hard
+
+reward:
+  min: -1.0
+  max: 1.0
+  partial_rewards: true
+  penalty_for_invalid: -0.2
+
+docker:
+  image: email-triage-env
+  port: 8000
+
+huggingface:
+  space_sdk: docker
+  app_port: 8000
