@@ -34,6 +34,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 # Copy source — .env is in .dockerignore so it is NEVER copied
 COPY . .
 
+
 # Create package __init__ files
 RUN touch env/__init__.py tasks/__init__.py graders/__init__.py \
          rewards/__init__.py data/__init__.py agent/__init__.py 2>/dev/null || true
