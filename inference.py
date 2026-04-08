@@ -263,7 +263,7 @@ def run_episode(task_id: str, seed: int) -> Dict[str, Any]:
                                action_type="archive", confidence=0.5)
             obs, reward, done, info = env.step(safe)
 
-        step_rewards.append(reward.total_reward)
+        step_rewards.append(max(0.001, min(0.999, reward.total_reward)))
         email_id = info.get("email_id", "unknown")
 
         # ── [STEP] block ─────────────-----────────────────────────────────────
@@ -272,7 +272,7 @@ def run_episode(task_id: str, seed: int) -> Dict[str, Any]:
         print(f"action={action.label.value}")
         print(f"priority={action.priority.value}")
         print(f"action_type={action.action_type.value}")
-        print(f"reward={round(reward.total_reward, 4)}")
+        print(f"reward={round(max(0.001, min(0.999, reward.total_reward)), 4)}")
         print(f"[/STEP]")
         sys.stdout.flush()
 
