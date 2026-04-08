@@ -192,8 +192,11 @@ class EmailTriageEnv:
         avg_total = avg("total_reward")
 
         # Final score: mean reward clipped to [0,1], modulated by final inbox health
+        # health_modifier = 0.85 + 0.15 * self._ep_state.inbox_health
+        # final_score = max(0.0, min(1.0, avg_total * health_modifier))
         health_modifier = 0.85 + 0.15 * self._ep_state.inbox_health
-        final_score = max(0.0, min(1.0, avg_total * health_modifier))
+        final_score = avg_total * health_modifier
+        final_score = max(0.001, min(0.999, final_score))
 
         return EpisodeResult(
             task_id           = self.task_id,
