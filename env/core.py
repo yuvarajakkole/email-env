@@ -133,7 +133,7 @@ class EmailTriageEnv:
 
         # ── 6. Accumulate ─────────────────────────────────────────────────
         self._step_rewards.append(reward)
-        self._cumulative_reward = round(self._cumulative_reward + reward["total_reward"], 4)
+        self._cumulative_reward = round(self._cumulative_reward + reward.total_reward, 4)
 
         # ── 7. Advance ────────────────────────────────────────────────────
         self._advance()
@@ -239,7 +239,7 @@ class EmailTriageEnv:
         s = self._ep_state
 
         # ── Inbox health ─────────────────────────────────────────────────
-        if reward["total_reward"] >= 0.85:
+        if reward.total_reward >= 0.85:
             s.inbox_health = min(1.0, round(s.inbox_health + INBOX_HEALTH_GAIN_PERFECT, 4))
         if cls_score < 0.5:
             s.inbox_health = max(0.0, round(s.inbox_health - INBOX_HEALTH_HIT_WRONG_CLASS, 4))
