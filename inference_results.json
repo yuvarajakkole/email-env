@@ -1,0 +1,72 @@
+{
+  "model": "meta-llama/Llama-3.3-70B-Instruct",
+  "base_url": "https://api-inference.huggingface.co/v1",
+  "seed": 42,
+  "results": {
+    "easy": {
+      "task_id": "easy",
+      "seed": 42,
+      "final_score": 0.4979,
+      "avg_reward": 0.5508,
+      "n_steps": 15,
+      "breakdown": {
+        "avg_classification": 0.6,
+        "avg_priority": 0.0,
+        "avg_action": 0.0,
+        "avg_response": 0.0,
+        "avg_total_reward": 0.5508,
+        "final_inbox_health": 0.36,
+        "final_user_sat": 0.2,
+        "total_action_cost": 0.11,
+        "ignored_urgent": 0,
+        "unresolved_threads": 0
+      }
+    },
+    "medium": {
+      "task_id": "medium",
+      "seed": 42,
+      "final_score": 0.7655,
+      "avg_reward": 0.817,
+      "n_steps": 20,
+      "breakdown": {
+        "avg_classification": 0.85,
+        "avg_priority": 0.7125,
+        "avg_action": 0.0,
+        "avg_response": 0.0,
+        "avg_total_reward": 0.817,
+        "final_inbox_health": 0.58,
+        "final_user_sat": 0.0,
+        "total_action_cost": 0.16,
+        "ignored_urgent": 0,
+        "unresolved_threads": 0
+      }
+    },
+    "hard": {
+      "task_id": "hard",
+      "seed": 42,
+      "final_score": 0.6769,
+      "avg_reward": 0.6914,
+      "n_steps": 25,
+      "breakdown": {
+        "avg_classification": 0.72,
+        "avg_priority": 0.58,
+        "avg_action": 0.78,
+        "avg_response": 0.5003,
+        "avg_total_reward": 0.6914,
+        "final_inbox_health": 0.86,
+        "final_user_sat": 0.66,
+        "total_action_cost": 0.226,
+        "ignored_urgent": 0,
+        "unresolved_threads": 0
+      }
+    }
+  },
+  "summary": {
+    "avg_score": 0.6468,
+    "task_scores": {
+      "easy": 0.4979,
+      "medium": 0.7655,
+      "hard": 0.6769
+    }
+  }
+}

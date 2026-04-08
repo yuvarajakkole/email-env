@@ -40,11 +40,11 @@ RUN touch env/__init__.py tasks/__init__.py graders/__init__.py \
 
 ENV PYTHONPATH=/app
 # PORT and secrets come from --env-file .env at runtime, not here
-ENV PORT=8000
+ENV PORT=7860
 
-EXPOSE 8000
+EXPOSE 7860
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:7860/health || exit 1
 
 CMD ["python", "server.py"]
