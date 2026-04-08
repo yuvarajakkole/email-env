@@ -10,8 +10,12 @@ dependencies = [
     "fastapi",
     "uvicorn",
     "openai",
-    "python-dotenv"
+    "python-dotenv",
+    "openenv==0.1.13"
 ]
+
+[project.scripts]
+server = "server:app"
 
 [build-system]
 requires = ["setuptools", "wheel"]
