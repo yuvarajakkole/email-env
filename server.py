@@ -136,24 +136,29 @@ def list_tasks():
         for task_id, cfg in TASK_CONFIGS.items()
     }
 
+from fastapi import Body
 
-@app.post("/reset", response_model=ResetResponse)
-def reset(req: ResetRequest):
+@app.post("/reset")
+def reset(req: dict = Body(default={})):
     from tasks.manager import TASK_CONFIGS
-    if req.task_id not in TASK_CONFIGS:
-        raise HTTPException(status_code=400, detail=f"Unknown task: {req.task_id}")
 
-    env = EmailTriageEnv(task_id=req.task_id, seed=req.seed)
+    task_id = req.get("task_id", "easy")
+    seed    = req.get("seed", 42)
+
+    if task_id not in TASK_CONFIGS:
+        raise HTTPException(status_code=400, detail=f"Unknown task: {task_id}")
+
+    env = EmailTriageEnv(task_id=task_id, seed=seed)
     obs = env.reset()
 
-    session_id = f"{req.task_id}_{req.seed}"
+    session_id = f"{task_id}_{seed}"
     _sessions[session_id] = env
-    cfg = TASK_CONFIGS[req.task_id]
+    cfg = TASK_CONFIGS[task_id]
 
-    return ResetResponse(
-        session_id  = session_id,
-        observation = obs.dict() if obs else None,
-        task_config = {
+    return {
+        "session_id": session_id,
+        "observation": obs.dict() if obs else None,
+        "task_config": {
             "task_id":         cfg.task_id,
             "name":            cfg.name,
             "difficulty":      cfg.difficulty,
@@ -162,31 +167,82 @@ def reset(req: ResetRequest):
             "require_action":  cfg.require_action,
             "require_response":cfg.require_response,
         },
-    )
+    }
+# @app.post("/reset", response_model=ResetResponse)
+# def reset(req: ResetRequest):
+#     from tasks.manager import TASK_CONFIGS
+#     if req.task_id not in TASK_CONFIGS:
+#         raise HTTPException(status_code=400, detail=f"Unknown task: {req.task_id}")
+
+#     env = EmailTriageEnv(task_id=req.task_id, seed=req.seed)
+#     obs = env.reset()
+
+#     session_id = f"{req.task_id}_{req.seed}"
+#     _sessions[session_id] = env
+#     cfg = TASK_CONFIGS[req.task_id]
+
+#     return ResetResponse(
+#         session_id  = session_id,
+#         observation = obs.dict() if obs else None,
+#         task_config = {
+#             "task_id":         cfg.task_id,
+#             "name":            cfg.name,
+#             "difficulty":      cfg.difficulty,
+#             "n_emails":        cfg.n_emails,
+#             "label_space":     cfg.label_space,
+#             "require_action":  cfg.require_action,
+#             "require_response":cfg.require_response,
+#         },
+#     )
 
 
-@app.post("/step", response_model=StepResponse)
-def step(req: StepRequest):
-    env = _sessions.get(req.session_id)
+
+from fastapi import Body
+
+@app.post("/step")
+def step(req: dict = Body(...)):
+    session_id = req.get("session_id")
+    action_data = req.get("action")
+
+    env = _sessions.get(session_id)
     if env is None:
-        raise HTTPException(status_code=404, detail=f"Session {req.session_id} not found. Call /reset first.")
+        raise HTTPException(status_code=404, detail="Session not found")
 
     try:
-        action = AgentAction(**req.action)
+        action = AgentAction(**action_data)
     except Exception as e:
         raise HTTPException(status_code=422, detail=f"Invalid action: {e}")
 
-    try:
-        obs, reward, done, info = env.step(action)
-    except RuntimeError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    obs, reward, done, info = env.step(action)
 
-    return StepResponse(
-        observation = obs.dict() if obs else None,
-        reward      = reward.dict(),
-        done        = done,
-        info        = info,
-    )
+    return {
+        "observation": obs.dict() if obs else None,
+        "reward": reward.dict(),
+        "done": done,
+        "info": info,
+    }
+# @app.post("/step", response_model=StepResponse)
+# def step(req: StepRequest):
+#     env = _sessions.get(req.session_id)
+#     if env is None:
+#         raise HTTPException(status_code=404, detail=f"Session {req.session_id} not found. Call /reset first.")
+
+#     try:
+#         action = AgentAction(**req.action)
+#     except Exception as e:
+#         raise HTTPException(status_code=422, detail=f"Invalid action: {e}")
+
+#     try:
+#         obs, reward, done, info = env.step(action)
+#     except RuntimeError as e:
+#         raise HTTPException(status_code=400, detail=str(e))
+
+#     return StepResponse(
+#         observation = obs.dict() if obs else None,
+#         reward      = reward.dict(),
+#         done        = done,
+#         info        = info,
+#     )
 
 
 @app.get("/state/{session_id}")
