@@ -278,7 +278,7 @@ def run_episode(task_id: str, seed: int) -> Dict[str, Any]:
 
     # Episode result
     result = env.episode_result()
-    final_score = round(result.final_score, 4)
+    final_score = round(max(0.001, min(0.999, result.final_score)), 4)
     avg_reward  = round(sum(step_rewards) / max(1, len(step_rewards)), 4)
 
     # ── [END] block ──────────────────────────────────────────────────────
