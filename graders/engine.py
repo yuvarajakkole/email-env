@@ -240,7 +240,7 @@ class EasyGrader:
             cls = max(0.0, grade_classification(action.label.value, gt["label"]) * 0.6)
         return {"classification_score": round(cls,4),
                 "priority_score": 0.0, "action_score": 0.0,
-                "response_score": 0.0, "total": round(cls,4)}
+                "response_score": 0.0, "total": round(max(0.001, min(0.999, cls)), 4)}
 
 
 class MediumGrader:
@@ -252,7 +252,7 @@ class MediumGrader:
         pri = grade_priority(action.priority.value, gt["priority"])
         total = MediumGrader.W["c"]*cls + MediumGrader.W["p"]*pri
         return {"classification_score": round(cls,4), "priority_score": round(pri,4),
-                "action_score": 0.0, "response_score": 0.0, "total": round(total,4)}
+                "action_score": 0.0, "response_score": 0.0, "total": round(max(0.001, min(0.999, cls)), 4)}
 
 
 class HardGrader:
@@ -276,7 +276,7 @@ class HardGrader:
 
         return {"classification_score": round(cls,4), "priority_score": round(pri,4),
                 "action_score": round(act,4), "response_score": round(rsp,4),
-                "total": round(total,4)}
+                "total": round(max(0.001, min(0.999, cls)), 4)}
 
 
 GRADERS = {"easy": EasyGrader, "medium": MediumGrader, "hard": HardGrader}

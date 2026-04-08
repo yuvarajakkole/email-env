@@ -195,7 +195,7 @@ class EmailTriageEnv:
         # health_modifier = 0.85 + 0.15 * self._ep_state.inbox_health
         # final_score = max(0.0, min(1.0, avg_total * health_modifier))
         health_modifier = 0.85 + 0.15 * self._ep_state.inbox_health
-        final_score = avg_total * health_modifier
+        final_score = max(0.001, min(0.999, avg_total * health_modifier))
         final_score = max(0.001, min(0.999, final_score))
 
         return EpisodeResult(
