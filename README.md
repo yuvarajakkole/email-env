@@ -28,7 +28,7 @@ python server.py
 
 > A **competition-grade OpenEnv reinforcement learning environment** where AI agents learn to triage enterprise emails with persistent state, long-term consequences, and adversarial difficulty — modelled on the Enron email corpus.
 
----
+----------
 
 ## Why Email Triage?
 

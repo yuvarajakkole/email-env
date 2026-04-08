@@ -266,7 +266,7 @@ def run_episode(task_id: str, seed: int) -> Dict[str, Any]:
         step_rewards.append(reward.total_reward)
         email_id = info.get("email_id", "unknown")
 
-        # ── [STEP] block ─────────────────────────────────────────────────
+        # ── [STEP] block ─────────────-----────────────────────────────────────
         print(f"[STEP]")
         print(f"email_id={email_id}")
         print(f"action={action.label.value}")
