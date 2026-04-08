@@ -158,22 +158,34 @@ def compute_reward(
         elif total >= 0.35: fb = ["⚠️  Partial credit"]
         else:               fb = ["❌ Poor decision — review logic"]
 
-    cls   = max(0.001, min(0.999, cls))
-    pri   = max(0.001, min(0.999, pri))
-    act   = max(0.001, min(0.999, act))
-    rsp   = max(0.001, min(0.999, rsp))
-    total = max(0.001, min(0.999, total))
 
-    return StepReward(
-        classification_score = round(cls, 4),
-        priority_score       = round(pri, 4),
-        action_score         = round(act, 4),
-        response_score       = round(rsp, 4),
-        total_reward         = round(total, 4),
-        penalty              = round(penalty, 4),
-        action_cost          = round(cost, 4),
-        feedback             = " | ".join(fb),
-    )
+    cls = max(0.001, min(0.999, cls))
+    pri = max(0.001, min(0.999, pri))
+    act = max(0.001, min(0.999, act))
+    rsp = max(0.001, min(0.999, rsp))
+
+    return {
+        "classification_score": cls,
+        "priority_score": pri,
+        "action_score": act,
+        "response_score": rsp
+    }
+    # cls   = max(0.001, min(0.999, cls))
+    # pri   = max(0.001, min(0.999, pri))
+    # act   = max(0.001, min(0.999, act))
+    # rsp   = max(0.001, min(0.999, rsp))
+    # total = max(0.001, min(0.999, total))
+
+    # return StepReward(
+    #     classification_score = round(cls, 4),
+    #     priority_score       = round(pri, 4),
+    #     action_score         = round(act, 4),
+    #     response_score       = round(rsp, 4),
+    #     total_reward         = round(total, 4),
+    #     penalty              = round(penalty, 4),
+    #     action_cost          = round(cost, 4),
+    #     feedback             = " | ".join(fb),
+    # )
 
     # return StepReward(
     #     classification_score = round(cls, 4),
