@@ -1,0 +1,18 @@
+[project]
+name = "email-triage-env"
+version = "1.0.0"
+description = "Email Triage RL Environment"
+authors = [{ name = "Yuvaraj" }]
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "openai",
+    "python-dotenv"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
