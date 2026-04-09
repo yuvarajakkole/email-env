@@ -145,7 +145,7 @@ class EpisodeResult(BaseModel):
     task_id:           str
     total_steps:       int
     cumulative_reward: float
-    final_score:       float = Field(..., ge=0.0, le=1.0)
+    final_score:       float = Field(..., gt=0.0, lt=1.0)
     per_step_rewards:  List[StepReward]
     grader_breakdown:  dict
     final_state:       dict  = Field(default_factory=dict)
